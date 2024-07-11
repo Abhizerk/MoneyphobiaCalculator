@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Return on Investment (ROI) Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            transition: background 0.5s ease;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9); /* White with transparency */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: all 0.3s ease-in-out;
+        }
+
+        h1 {
+            color: #ff0000;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #ff0000;
+        }
+
+        .btn {
+            background-color: #ff0000;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: rgba(255, 0, 0, 0.7);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.8); /* White with transparency */
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .result.hidden {
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        .result h2 {
+            color: #ff0000;
+        }
+
+        .result p {
+            color: #333;
+            font-size: 1.5em;
+        }
+
+        .theme-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #ff0000;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .theme-switcher:hover {
+            background-color: rgba(255, 0, 0, 0.7);
+        }
+
+        body.day-mode {
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+        }
+
+        body.night-mode {
+            background: linear-gradient(to right, #2c3e50, #4ca1af);
+        }
+    </style>
+</head>
+<body class="day-mode">
+    <button class="theme-switcher" onclick="toggleTheme()">Switch to Night Mode</button>
+    <div class="container">
+        <h1>Return on Investment (ROI) Calculator</h1>
+        <form id="roi-form">
+            <div class="input-group">
+                <label for="initial-investment">Initial Investment:</label>
+                <input type="number" id="initial-investment" required>
+            </div>
+            <div class="input-group">
+                <label for="final-value">Final Value:</label>
+                <input type="number" id="final-value" required>
+            </div>
+            <button type="submit" class="btn">Calculate</button>
+        </form>
+        <div id="result" class="result hidden">
+            <h2>ROI:</h2>
+            <p id="roi-value"></p>
+        </div>
+    </div>
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const themeSwitcher = document.querySelector('.theme-switcher');
+
+            if (body.classList.contains('day-mode')) {
+                body.classList.remove('day-mode');
+                body.classList.add('night-mode');
+                themeSwitcher.textContent = 'Switch to Day Mode';
+            } else {
+                body.classList.remove('night-mode');
+                body.classList.add('day-mode');
+                themeSwitcher.textContent = 'Switch to Night Mode';
+            }
+        }
+
+        document.getElementById('roi-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const initialInvestment = parseFloat(document.getElementById('initial-investment').value);
+            const finalValue = parseFloat(document.getElementById('final-value').value);
+
+            if (initialInvestment > 0) {
+                const roi = ((finalValue - initialInvestment) / initialInvestment) * 100;
+                document.getElementById('roi-value').textContent = roi.toFixed(2) + '%';
+                const resultDiv = document.getElementById('result');
+                resultDiv.classList.remove('hidden');
+                resultDiv.style.opacity = 1;
+                resultDiv.style.transform = 'scale(1)';
+            } else {
+                alert('Initial investment must be greater than 0.');
+            }
+        });
+    </script>
+</body>
+</html>
